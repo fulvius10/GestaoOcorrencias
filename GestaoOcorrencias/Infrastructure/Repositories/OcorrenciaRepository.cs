@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using GestaoOcorrencias.Domain.Entities;
+﻿using GestaoOcorrencias.Domain.Entities;
 using GestaoOcorrencias.Domain.Interfaces;
 using GestaoOcorrencias.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System;
 
 namespace GestaoOcorrencias.Infrastructure.Repositories
 {
@@ -18,12 +19,14 @@ namespace GestaoOcorrencias.Infrastructure.Repositories
 
         public async Task<IEnumerable<Ocorrencia>> GetAllAsync()
         {
-            return await _context.Ocorrencias.ToListAsync();
+            
+            return await _context.Ocorrencias.AsNoTracking().ToListAsync();
         }
 
         public async Task<Ocorrencia> GetByIdAsync(int id)
         {
-            return await _context.Ocorrencias.FindAsync(id);
+           
+            return await _context.Ocorrencias.AsNoTracking().FirstOrDefaultAsync(o => o.Id == id);
         }
 
         public async Task AddAsync(Ocorrencia ocorrencia)
@@ -32,11 +35,24 @@ namespace GestaoOcorrencias.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+
         public async Task UpdateAsync(Ocorrencia ocorrencia)
         {
-            _context.Ocorrencias.Update(ocorrencia);
-            await _context.SaveChangesAsync();
+            var existingOcorrencia = await _context.Ocorrencias
+                .AsNoTracking()
+                .FirstOrDefaultAsync(o => o.Id == ocorrencia.Id);
+
+            if (existingOcorrencia != null)
+            {
+                _context.Entry(ocorrencia).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new InvalidOperationException("Ocorrência não encontrada para atualização.");
+            }
         }
+
 
         public async Task DeleteAsync(int id)
         {
@@ -45,6 +61,10 @@ namespace GestaoOcorrencias.Infrastructure.Repositories
             {
                 _context.Ocorrencias.Remove(ocorrencia);
                 await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new InvalidOperationException("Ocorrência não encontrada para exclusão.");
             }
         }
     }

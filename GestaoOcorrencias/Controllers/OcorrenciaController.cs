@@ -28,19 +28,30 @@ namespace GestaoOcorrencias.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Ocorrencia ocorrencia)
+        public async Task<IActionResult> Create([FromBody] Ocorrencia ocorrencia)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             await _ocorrenciaService.AddOcorrenciaAsync(ocorrencia);
+
+
             return CreatedAtAction(nameof(GetById), new { id = ocorrencia.Id }, ocorrencia);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Ocorrencia ocorrencia)
+        public async Task<IActionResult> Update(int id, [FromBody] Ocorrencia ocorrencia)
         {
-            if (id != ocorrencia.Id) return BadRequest();
+
+            if (id != ocorrencia.Id)
+                return BadRequest("ID na URL não corresponde ao ID da ocorrência.");
+
             var existingOcorrencia = await _ocorrenciaService.GetOcorrenciaByIdAsync(id);
-            if (existingOcorrencia == null) return NotFound();
+            if (existingOcorrencia == null)
+                return NotFound("Ocorrência não encontrada.");
+
             await _ocorrenciaService.UpdateOcorrenciaAsync(ocorrencia);
+
             return NoContent();
         }
 

@@ -1,7 +1,9 @@
-﻿using GestaoOcorrencias.Domain.Entities;
+﻿    using GestaoOcorrencias.Domain.Entities;
 using GestaoOcorrencias.Domain.Interfaces;
 using GestaoOcorrencias.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GestaoOcorrencias.Infrastructure.Repositories
 {
@@ -14,20 +16,35 @@ namespace GestaoOcorrencias.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Cliente>> GetAllAsync() => await _context.Clientes.ToListAsync();
+        public async Task<IEnumerable<Cliente>> GetAllAsync()
+        {
+            return await _context.Clientes.ToListAsync();
+        }
 
-        public async Task<Cliente> GetByIdAsync(int id) => await _context.Clientes.FindAsync(id);
+        public async Task<Cliente> GetByIdAsync(int id)
+        {
+            return await _context.Clientes.FindAsync(id);
+        }
 
         public async Task AddAsync(Cliente cliente)
         {
-            _context.Clientes.Add(cliente);
+            await _context.Clientes.AddAsync(cliente);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Cliente cliente)
         {
-            _context.Clientes.Update(cliente);
-            await _context.SaveChangesAsync();
+            var existingCliente = await _context.Clientes.FindAsync(cliente.Id);
+
+            if (existingCliente != null)
+            {
+                _context.Entry(existingCliente).CurrentValues.SetValues(cliente);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new InvalidOperationException("Cliente não encontrado para atualização.");
+            }
         }
 
         public async Task DeleteAsync(int id)

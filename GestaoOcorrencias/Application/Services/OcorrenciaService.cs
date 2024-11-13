@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using GestaoOcorrencias.Domain.Entities;
+﻿using GestaoOcorrencias.Domain.Entities;
 using GestaoOcorrencias.Domain.Interfaces;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GestaoOcorrencias.Application.Services
 {

@@ -1,4 +1,6 @@
 ﻿using GestaoOcorrencias.Domain.Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GestaoOcorrencias.Domain.Interfaces
 {

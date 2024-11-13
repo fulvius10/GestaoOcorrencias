@@ -12,9 +12,21 @@ namespace GestaoOcorrencias.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+           modelBuilder.Entity<Ocorrencia>()
+                .HasOne(o => o.ResponsavelAbertura)
+                .WithMany()
+                .HasForeignKey(o => o.ResponsavelAberturaId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Ocorrencia>()
+                .HasOne(o => o.ResponsavelOcorrencia)
+                .WithMany()
+                .HasForeignKey(o => o.ResponsavelOcorrenciaId)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Cliente>().HasKey(c => c.Id);
             modelBuilder.Entity<Ocorrencia>().HasKey(o => o.Id);
             base.OnModelCreating(modelBuilder);
+
         }
     }
 }
