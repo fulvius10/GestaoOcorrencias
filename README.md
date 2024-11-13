@@ -1,5 +1,6 @@
 # GestaoOcorrencias
-Projeto Criado para vaga de teste na ambipar ESG sobre um programa de gestao de Ocorrencias
+Projeto Criado para vaga de teste na ambipar ESG sobre um programa de gestao de Ocorrencias.
+
 Para utilizar o projeto, favor rodar o /swagger apos inicializacao
 
 Metodo get em clientes:
@@ -23,6 +24,38 @@ E para finalizar delete para deletar
 ![image](https://github.com/user-attachments/assets/1a5a852d-b1e7-47a6-9601-2958539de0b1)
 
 Ja agora vamos para o outro que e de ocorrencias
+
+get
+
+![image](https://github.com/user-attachments/assets/13cd5cc6-bfdb-44fa-bcfa-e0a2e117d55f)
+
+get (id)
+
+![image](https://github.com/user-attachments/assets/902e1d20-2caf-4dc8-8159-731c1b01eb80)
+
+put
+
+![image](https://github.com/user-attachments/assets/98bc89f9-da28-4887-97e7-806f60d8bb6f)
+
+post
+
+Antes
+
+![image](https://github.com/user-attachments/assets/08684514-44cb-4f7e-8e00-b7043bffa383)
+
+Depois
+
+![image](https://github.com/user-attachments/assets/6e9be954-4cc0-468e-9943-d685ec2ba359)
+
+
+metodo delete 
+
+![image](https://github.com/user-attachments/assets/3d6ef1b1-3f92-4816-b9f3-867e423d6f08)
+
+![image](https://github.com/user-attachments/assets/18581ff2-b546-4365-af3d-0a0d8f5217ac)
+
+
+
 
 
 
